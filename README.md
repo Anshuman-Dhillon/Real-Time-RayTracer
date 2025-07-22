@@ -18,9 +18,9 @@ A high-performance, interactive raytracer built in C++ using the Walnut framewor
 ## Features
 
 - **Real-time Performance**: Interactive raytracing with immediate visual feedback
-- **Progressive Accumulation**: Temporal anti-aliasing through multi-frame accumulation
+- **Accumulation Mode**: Temporal anti-aliasing through multi-frame accumulation
 - **Material System**: Physically-based materials with albedo, roughness, and metallic properties
-- **Multi-threading Ready**: Architecture supports parallel execution for enhanced performance
+- **Multi-threading**: Architecture supports parallel execution for enhanced performance
 - **Interactive Scene Editing**: Real-time parameter adjustment with immediate visual updates
 
 ## Technical Overview
@@ -91,21 +91,10 @@ For each pixel (x, y):
 3. Initialize ray structure for tracing
 
 ### 2. Ray-Scene Intersection
+
 **Sphere Intersection Algorithm**:
 The renderer uses the quadratic formula to solve ray-sphere intersections:
 
-```
-Ray: P(t) = Origin + t * Direction
-Sphere: |P - Center|² = Radius²
-
-Quadratic: at² + bt + c = 0
-where:
-- a = |Direction|²
-- b = 2 * (Origin - Center) · Direction  
-- c = |Origin - Center|² - Radius²
-```
-
-**Implementation Details**:
 - Uses discriminant test for intersection detection
 - Calculates closest intersection point (smallest positive t)
 - Handles multiple spheres with depth sorting
@@ -290,42 +279,26 @@ Simple procedural sky color for rays that miss all geometry:
 glm::vec3 skyColor = glm::vec3(0.6f, 0.7f, 0.9f); // Soft blue gradient
 ```
 
-### 2. Interactive Scene Editing
-- Real-time parameter adjustment through Dear ImGui interface
-- Sphere position, radius, and material assignment controls
-- Material property sliders for albedo, roughness, and metallic values  
-- Performance monitoring with frame time display
-
-### 3. Sky/Environment Mapping
-Simple procedural sky color for rays that miss all geometry:
-```cpp
-glm::vec3 skyColor = glm::vec3(0.6f, 0.7f, 0.9f); // Soft blue gradient
-```
-
 ## Build Instructions
 
 ### Prerequisites
 - **Visual Studio 2019+** or equivalent C++17 compiler
 - **Vulkan SDK** for graphics API support  
-- **Premake5** for project generation
 
 ### Dependencies
 - **Walnut Framework**: Vulkan backend and Dear ImGui integration
 - **GLM**: OpenGL Mathematics library for vector operations
 - **C++17**: Modern language features and execution policies
 
-### Building
-1. Clone the repository with submodules:
+### Running the application
+1. Clone the repository in a local directory:
    ```bash
-   git clone --recursive https://github.com/yourusername/raytracer.git
+   git clone https://github.com/yourusername/raytracer.git
    ```
 
-2. Generate project files:
-   ```bash
-   premake5 vs2022  # or your preferred IDE
-   ```
+2. Navigate to the main folder (Raytracer) -> bin -> Release-windows-x86_64 -> RayTracer -> Run RayTracer.exe:
 
-3. Build the solution in your IDE or via command line
+3. It won't work in the first run because imgui needs to create a configuration file, so place the windows/panels where you'd like (including the viewport), and then run RayTracer.exe again.
 
 ## Usage
 
@@ -337,7 +310,6 @@ glm::vec3 skyColor = glm::vec3(0.6f, 0.7f, 0.9f); // Soft blue gradient
 
 ### Performance Tips  
 - Enable accumulation mode for highest quality (slower updates)
-- Disable accumulation for interactive editing (immediate feedback)
 - Monitor frame times in the settings panel
 
 ## Project Structure
@@ -354,7 +326,7 @@ RayTracer/
 └── premake5.lua          # Build configuration
 ```
 
-## Future Enhancements
+## Possible Future Improvements
 
 - BVH acceleration structures for complex scenes
 - Temporal and spatial denoising algorithms
