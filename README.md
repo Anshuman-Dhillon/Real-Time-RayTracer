@@ -154,7 +154,7 @@ where:
 
 We want to solve for **t** such that the ray hits the sphere.
 
-## Substituting the Ray into the Sphere Equation
+### Substituting the Ray into the Sphere Equation
 
 Substitute `r(t)` into the sphere's equation:
 ```
@@ -191,7 +191,7 @@ Where:
 - `b = 2(oc · d)`
 - `c = oc · oc - R²`
 
-## Implementation
+### Implementation
 
 From my `TraceRay()` function:
 
