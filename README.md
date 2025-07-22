@@ -2,10 +2,7 @@
 
 A high-performance, interactive raytracer built in C++ using the Walnut framework (Vulkan + Dear ImGui). Features real-time ray tracing with progressive accumulation, physically-based materials, and interactive scene editing.
 
-<video width="600" controls>
-  <source src="[demo/Raytracing-demo.mp4](https://github.com/Anshuman-Dhillon/Real-Time-RayTracer/blob/main/demo/Raytracing-demo.mp4)" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+![Raytracer Demo](demo/Raytracing-demo.gif)
 
 ## Table of Contents
 1. [Features](#features)
