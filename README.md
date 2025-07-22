@@ -78,6 +78,9 @@ struct Material {
 
 ## Ray Tracing Pipeline
 
+![Ray tracing showing camera, view ray, light source, shadow ray, and scene object](images/raytracing-diagram.png "Ray Tracing Pipeline")
+
+
 ### 1. Ray Generation Phase
 
 For each pixel (x, y):
