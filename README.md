@@ -5,24 +5,17 @@ A high-performance, interactive raytracer built in C++ using the Walnut framewor
 ![Raytracer Demo](demo/Raytracing-demo.gif)
 
 ## Table of Contents
-1. [Features](#features)
-2. [Technical Overview](#technical-overview)
-3. [Core Components](#core-components)
-4. [Ray Tracing Pipeline](#ray-tracing-pipeline)
-5. [Mathematical Implementation](#mathematical-implementation)
-6. [Performance Optimizations](#performance-optimizations)
-7. [Build Instructions](#build-instructions)
-8. [Usage](#usage)
-
-## Features
-
-- **Real-time Performance**: Interactive raytracing with immediate visual feedback
-- **Accumulation Mode**: Temporal anti-aliasing through multi-frame accumulation
-- **Material System**: Physically-based materials with albedo, roughness, and metallic properties
-- **Multi-threading**: Architecture supports parallel execution for enhanced performance
-- **Interactive Scene Editing**: Real-time parameter adjustment with immediate visual updates
+1. [Technical Overview](#technical-overview)
+2. [Core Components](#core-components)
+3. [Ray Tracing Pipeline](#ray-tracing-pipeline)
+4. [Mathematical Implementation](#mathematical-implementation)
+5. [Performance Optimizations](#performance-optimizations)
+6. [Build Instructions](#build-instructions)
+7. [Usage](#usage)
 
 ## Technical Overview
+
+Ray tracing is a rendering technique used to generate highly realistic images by simulating the physical behavior of light as it interacts with objects in a 3D scene. It works by tracing the path of rays from the camera through each pixel on the screen and calculating how these rays intersect with scene geometry. Upon hitting a surface, additional rays may be spawned to simulate reflection, refraction, and shadowing, allowing for the accurate depiction of lighting effects such as global illumination, soft shadows, and caustics. Unlike rasterization, which approximates visibility and lighting, ray tracing computes light transport based on geometric and material data, producing photorealistic results at the cost of higher computational complexity.
 
 This raytracer implements advanced computer graphics concepts including ray-sphere intersection, recursive ray bouncing, progressive accumulation, and physically-based material properties. Built on the Walnut framework, it leverages Vulkan for GPU-accelerated rendering and Dear ImGui for immediate-mode user interface.
 
