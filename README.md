@@ -125,7 +125,7 @@ The raytracer supports up to 5 bounces with energy attenuation per bounce (multi
 
 ### Ray-Sphere Intersection Mathematics
 
-The core intersection algorithm solves the quadratic equation:
+We want to find where a ray intersects with a sphere. The core intersection algorithm solves the quadratic equation:
 ```
 (Ox + t·Dx - Cx)² + (Oy + t·Dy - Cy)² + (Oz + t·Dz - Cz)² = R²
 ```
@@ -137,7 +137,7 @@ t² · (Dx² + Dy² + Dz²) +
 ((Ox-Cx)² + (Oy-Cy)² + (Oz-Cz)² - R²) = 0
 ```
 
-**Optimized Implementation**:
+**Vector Implementation**:
 ```cpp
 glm::vec3 origin = ray.Origin - sphere.Position;
 float a = glm::dot(ray.Direction, ray.Direction);
