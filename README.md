@@ -7,13 +7,12 @@ A high-performance, interactive raytracer built in C++ using the Walnut framewor
 ## Table of Contents
 1. [Features](#features)
 2. [Technical Overview](#technical-overview)
-3. [Architecture](#architecture)
-4. [Core Components](#core-components)
-5. [Ray Tracing Pipeline](#ray-tracing-pipeline)
-6. [Mathematical Implementation](#mathematical-implementation)
-7. [Performance Optimizations](#performance-optimizations)
-8. [Build Instructions](#build-instructions)
-9. [Usage](#usage)
+3. [Core Components](#core-components)
+4. [Ray Tracing Pipeline](#ray-tracing-pipeline)
+5. [Mathematical Implementation](#mathematical-implementation)
+6. [Performance Optimizations](#performance-optimizations)
+7. [Build Instructions](#build-instructions)
+8. [Usage](#usage)
 
 ## Features
 
@@ -26,8 +25,6 @@ A high-performance, interactive raytracer built in C++ using the Walnut framewor
 ## Technical Overview
 
 This raytracer implements advanced computer graphics concepts including ray-sphere intersection, recursive ray bouncing, progressive accumulation, and physically-based material properties. Built on the Walnut framework, it leverages Vulkan for GPU-accelerated rendering and Dear ImGui for immediate-mode user interface.
-
-## Architecture
 
 The application follows a layered architecture with clear separation between rendering engine, scene management, and user interface:
 
