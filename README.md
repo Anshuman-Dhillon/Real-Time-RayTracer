@@ -290,7 +290,7 @@ glm::vec3 skyColor = glm::vec3(0.6f, 0.7f, 0.9f); // Soft blue gradient
 ### Running the application
 1. Clone the repository in a local directory:
    ```bash
-   git clone https://github.com/yourusername/raytracer.git
+   git clone https://github.com/Anshuman-Dhillon/Real-Time-RayTracer.git
    ```
 
 2. Navigate to the main folder (Raytracer) -> bin -> Release-windows-x86_64 -> RayTracer -> Run RayTracer.exe:
