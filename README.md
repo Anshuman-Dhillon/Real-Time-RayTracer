@@ -300,10 +300,10 @@ glm::vec3 skyColor = glm::vec3(0.6f, 0.7f, 0.9f); // Soft blue gradient
 ## Usage
 
 ### Controls
-- **Mouse**: Click and drag to orbit around the scene
-- **Scroll**: Zoom in/out  
+- **Mouse**: Right click and drag to orbit around the scene
+- **WASD**: To move around inside the scene 
 - **Settings Panel**: Toggle accumulation mode and reset frame counter
-- **Scene Panel**: Adjust sphere and material properties in real-time
+- **Scene Panel**: Adjust object properties in real-time
 
 ### Performance Tips  
 - Enable accumulation mode for highest quality (slower updates)
