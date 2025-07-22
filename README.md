@@ -130,26 +130,96 @@ The raytracer supports up to 5 bounces with energy attenuation per bounce (multi
 
 ### Ray-Sphere Intersection Mathematics
 
-We want to find where a ray intersects with a sphere. The core intersection algorithm solves the quadratic equation:
+We want to find out if a **ray** intersects a **sphere**, and if so, where.
+
+### Ray
+A **ray** is defined by:
 ```
-(Ox + t·Dx - Cx)² + (Oy + t·Dy - Cy)² + (Oz + t·Dz - Cz)² = R²
+r(t) = o + td
+```
+where:
+- `o` = ray origin
+- `d` = ray direction (normalized or not)
+- `t` = parameter (distance along the ray)
+
+### Sphere
+A **sphere** is defined by:
+```
+||p - c||² = R²
+```
+where:
+- `p` = point on the sphere
+- `c` = sphere center
+- `R` = radius
+
+We want to solve for **t** such that the ray hits the sphere.
+
+## Substituting the Ray into the Sphere Equation
+
+Substitute `r(t)` into the sphere's equation:
+```
+||o + td - c||² = R²
 ```
 
-Expanding and collecting terms:
+Let:
 ```
-t² · (Dx² + Dy² + Dz²) + 
-2t · ((Ox-Cx)·Dx + (Oy-Cy)·Dy + (Oz-Cz)·Dz) + 
-((Ox-Cx)² + (Oy-Cy)² + (Oz-Cz)² - R²) = 0
+oc = o - c
 ```
 
-**Vector Implementation**:
+Then expand the squared norm:
+```
+(oc + td) · (oc + td) = R²
+```
+
+Expanding using dot product properties:
+```
+(oc · oc) + 2t(oc · d) + t²(d · d) = R²
+```
+
+Rearranged:
+```
+t²(d · d) + 2t(oc · d) + (oc · oc - R²) = 0
+```
+
+This is a **quadratic equation** in terms of `t`:
+```
+at² + bt + c = 0
+```
+
+Where:
+- `a = d · d`
+- `b = 2(oc · d)`
+- `c = oc · oc - R²`
+
+## Implementation
+
+From my `TraceRay()` function:
+
 ```cpp
 glm::vec3 origin = ray.Origin - sphere.Position;
-float a = glm::dot(ray.Direction, ray.Direction);
-float b = 2.0f * glm::dot(origin, ray.Direction);
-float c = glm::dot(origin, origin) - sphere.Radius * sphere.Radius;
+float a = glm::dot(ray.Direction, ray.Direction);           // d·d
+float b = 2.0f * glm::dot(origin, ray.Direction);           // 2(oc·d)
+float c = glm::dot(origin, origin) - sphere.Radius * sphere.Radius; // oc·oc - R²
+
 float discriminant = b * b - 4.0f * a * c;
 ```
+
+### Solving the Quadratic
+
+If `discriminant < 0`, no real solutions → **miss**.
+
+If `discriminant ≥ 0`, solve using the quadratic formula:
+```
+t = (-b ± √(b² - 4ac)) / (2a)
+```
+
+You pick the smaller (closer) solution for the **first point of intersection**:
+
+```cpp
+float closestT = (-b - glm::sqrt(discriminant)) / (2.0f * a);
+```
+
+This gives the first point of intersection along the ray.
 
 ### Progressive Accumulation Algorithm
 
