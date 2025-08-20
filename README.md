@@ -216,7 +216,7 @@ The progressive refinement system is one of my favorite features. In accumulatio
 - **Roughness**: Controls reflection sharpness (perfect mirror to completely diffuse)
 - **Metallic**: Determines metallic vs. dielectric behavior
 
-The interactive editing capabilities make this more than just a static demo. Through Dear ImGui panels, you can adjust sphere positions and radii in real-time, watching as shadows and reflections update instantly. Material sliders let you experiment with different surface properties, creating everything from polished chrome to rough concrete. Performance monitoring shows frame times and render statistics, which is invaluable for understanding the computational cost of different scene configurations.
+Through Dear ImGui panels, you can adjust sphere positions and radii in real-time, watching as shadows and reflections update instantly. Material sliders let you experiment with different surface properties. Performance monitoring shows frame times and render statistics for understanding the computational cost of different scene configurations.
 
 ### Sky/Environment Mapping
 Simple procedural sky color for rays that miss all geometry:
