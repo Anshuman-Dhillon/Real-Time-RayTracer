@@ -73,37 +73,13 @@ struct Material {
 ![Ray tracing showing camera, view ray, light source, shadow ray, and scene object](images/raytracing-diagram.png "Ray Tracing Pipeline")
 
 
-### 1. Ray Generation Phase
+The ray tracing process begins with generating rays for each pixel on the screen. Starting from the camera position, I calculate ray directions using a pre-computed buffer that maps screen coordinates to 3D directions in world space. Each ray carries an origin point and a normalized direction vector that determines where it travels through the scene.
 
-For each pixel (x, y):
-1. Calculate ray origin from camera position
-2. Compute ray direction using pre-calculated ray directions buffer
-3. Initialize ray structure for tracing
+When a ray encounters geometry in the scene, the intersection testing phase kicks in. For sphere primitives, I use the classic quadratic equation approach where the ray equation is substituted into the sphere's mathematical definition. The discriminant tells me whether an intersection occurs, and if multiple spheres are hit, I sort by distance to find the closest surface. This ensures proper depth ordering and realistic occlusion behavior.
 
-### 2. Ray-Scene Intersection
+Once a valid intersection point is found, the shading system takes over. Surface normals are computed by normalizing the vector from the sphere center to the hit point. The lighting calculation uses a simple directional light model with dot product evaluation, though the material system adds complexity through albedo, roughness, and metallic parameters that influence how light bounces off surfaces.
 
-**Sphere Intersection Algorithm**:
-The renderer uses the quadratic formula to solve ray-sphere intersections:
-
-- Uses discriminant test for intersection detection
-- Calculates closest intersection point (smallest positive t)
-- Handles multiple spheres with depth sorting
-
-### 3. Shading and Material Response
-For each intersection:
-1. **Surface Normal Calculation**: `normal = normalize(hitPoint - sphereCenter)`
-2. **Lighting Evaluation**: Simple directional light with dot product
-3. **Material Application**: Modulate base color with lighting
-4. **Reflection Ray Generation**: Use material roughness for ray scattering
-
-### 4. Recursive Ray Bouncing
-
-The raytracer supports up to 5 bounces with energy attenuation per bounce (multiplier *= 0.5f):
-
-1. **Primary Ray**: Shot from camera through pixel
-2. **Reflection Rays**: Generated at surface intersections  
-3. **Energy Attenuation**: Each bounce reduces contribution
-4. **Termination**: Bounce limit or miss (sky color)
+The real magic happens during recursive ray bouncing. When a ray hits a surface, I spawn additional reflection rays based on the material properties. Rougher materials scatter rays more randomly, while smooth surfaces produce mirror-like reflections. Each bounce carries less 'energy' than the previous one, simulating how light naturally loses intensity as it bounces around a scene. I limit this to 5 bounces to prevent infinite recursion while still capturing complex lighting interactions.
 
 ## Mathematical Implementation
 
@@ -215,7 +191,7 @@ This technique reduces noise and improves image quality over time by averaging m
 
 ## Performance Optimizations
 
-### 1. Multi-threading Architecture
+### Multi-threading Architecture
 The code includes parallel execution:
 ```cpp
 #define MT 0  // Multi-threading toggle
@@ -225,45 +201,24 @@ std::for_each(std::execution::par, m_ImageVerticalIter.begin(), m_ImageVerticalI
 #endif
 ```
 
-**Benefits of Parallel Processing**:
-- Distributes pixel calculations across CPU cores
-- Maintains thread-safe access to accumulation buffer
-- Scales performance with available hardware threads
+The most significant optimization is the multi-threading system that distributes pixel calculations across all available CPU cores. Rather than processing one pixel at a time, the renderer can tackle entire rows simultaneously, dramatically reducing render times on modern multi-core processors.
 
-### 2. Memory Management Optimization
-- **Contiguous Memory Layout**: Linear pixel buffer for cache efficiency
-- **Dynamic Resizing**: Efficient buffer reallocation on viewport changes
-- **Iterator Pre-allocation**: Reusable iteration vectors to avoid repeated allocations
+Memory management plays a crucial role in performance as well. I use contiguous memory layouts for the pixel buffer, which improves cache efficiency since the CPU can predict and preload nearby memory addresses. When the viewport changes size, the dynamic resizing system efficiently reallocates buffers without unnecessary memory fragmentation. Pre-allocated iteration vectors eliminate the overhead of repeated memory allocations during the render loop.
 
-### 3. Early Ray Termination
-```cpp
-if (payload.HitDistance < 0.0f) {
-    // Sky/environment contribution
-    glm::vec3 skyColor = glm::vec3(0.6f, 0.7f, 0.9f);
-    color += skyColor * multiplier;
-    break; // Terminate ray bouncing
-}
-```
+Early ray termination provides another performance boost by immediately stopping rays that miss all scene geometry. Instead of continuing expensive bounce calculations, these rays simply return the sky color and break out of the ray tracing loop. This optimization becomes more valuable in scenes with lots of empty space where many rays never hit anything after their initial bounce.
 
 ## Rendering Features
 
-### 1. Progressive Refinement
-- **Accumulation Mode**: Builds up samples over multiple frames
-- **Interactive Mode**: Immediate feedback for scene manipulation
-- **Automatic Reset**: Frame index reset on camera movement
+The progressive refinement system is one of my favorite features. In accumulation mode, each frame contributes additional samples to the final image, progressively reducing noise and improving color accuracy. This creates a satisfying experience where the image starts rough but quickly converges to a clean one. When the camera moves or scene parameters change, the system automatically resets the frame counter to ensure the user gets immediate visual feedback rather than waiting for the accumulation to rebuild.
 
-### 2. Material Properties
+### Material Properties
 - **Albedo**: Base surface color/reflectance
 - **Roughness**: Controls reflection sharpness (perfect mirror to completely diffuse)
 - **Metallic**: Determines metallic vs. dielectric behavior
 
-### 3. Interactive Scene Editing
-Real-time parameter adjustment through Dear ImGui:
-- Sphere position, radius, and material assignment
-- Material property sliders (albedo, roughness, metallic)
-- Render settings and performance monitoring
+The interactive editing capabilities make this more than just a static demo. Through Dear ImGui panels, you can adjust sphere positions and radii in real-time, watching as shadows and reflections update instantly. Material sliders let you experiment with different surface properties, creating everything from polished chrome to rough concrete. Performance monitoring shows frame times and render statistics, which is invaluable for understanding the computational cost of different scene configurations.
 
-### 4. Sky/Environment Mapping
+### Sky/Environment Mapping
 Simple procedural sky color for rays that miss all geometry:
 ```cpp
 glm::vec3 skyColor = glm::vec3(0.6f, 0.7f, 0.9f); // Soft blue gradient
@@ -286,9 +241,9 @@ glm::vec3 skyColor = glm::vec3(0.6f, 0.7f, 0.9f); // Soft blue gradient
    git clone https://github.com/Anshuman-Dhillon/Real-Time-RayTracer.git
    ```
 
-2. Navigate to the main folder (Raytracer) -> bin -> Release-windows-x86_64 -> RayTracer -> Run RayTracer.exe:
+   OR just download it as a .zip then unzip it wherever you'd like
 
-3. It won't work in the first run because imgui needs to create a configuration file, so place the windows/panels where you'd like (including the viewport), and then run RayTracer.exe again.
+2. Navigate to the main folder (Raytracer) -> bin -> Release-windows-x86_64 -> RayTracer -> Run RayTracer.exe
 
 ## Usage
 
