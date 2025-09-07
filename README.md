@@ -36,7 +36,7 @@ The project leverages the **Walnut Framework**, which provides:
 ## Core Components
 
 ### 1. Renderer Class
-The heart of the raytracing engine, responsible for:
+The renderer class is responsible for:
 - **Ray Generation**: Creating primary rays from camera
 - **Ray Tracing**: Implementing the core raytracing algorithm
 - **Accumulation Buffer**: Managing progressive refinement
@@ -248,14 +248,12 @@ glm::vec3 skyColor = glm::vec3(0.6f, 0.7f, 0.9f); // Soft blue gradient
 ## Usage
 
 ### Controls
-- **Mouse**: Right click and drag to orbit around the scene
-- **WASD**: To move around inside the scene 
-- **Settings Panel**: Toggle accumulation mode and reset frame counter
-- **Scene Panel**: Adjust object properties in real-time
 
-### Performance Tips  
-- Enable accumulation mode for highest quality (slower updates)
-- Monitor frame times in the settings panel
+**Mouse**: Right click and drag to orbit around the scene
+**WASD**: To move around inside the scene 
+**Settings Panel**: Toggle accumulation mode and reset frame counter
+**Scene Panel**: Adjust object properties in real-time
+
 
 ## Project Structure
 ```
